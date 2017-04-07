@@ -40,6 +40,7 @@ var renderList = function(state, element) {
 
 $(function(){ 
 	$('#js-shopping-list-form').submit(function(){
+        
 		event.preventDefault();
 		let userInput = $('#shopping-list-entry').val();
 		addItem(state, userInput);
@@ -49,11 +50,12 @@ $(function(){
 	});
 
 	$('.shopping-item-delete').on('click', function(){
-
-	})
-
-	$('.shopping-item-toggle').on('click', function(){
-		$(this).toggleClass('.shopping-item__checked');
+      console.log('hello delete');
+	});
+    
+	$('.shopping-list').on('click', '.shopping-item-toggle', function(){
+      
+		$(this).closest('li').children('.shopping-item').toggleClass('shopping-item__checked');
 
 	});
 
