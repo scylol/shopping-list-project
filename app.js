@@ -17,11 +17,18 @@ var deleteItem = function(state, itemIndex) {
 
 
 
-var checkItem = function(state,item, itemIndex) {
+var checkItem = function(state,item,itemIndex) {
     state.items[itemIndex].checked = !state.items[itemIndex].checked;
     item.toggleClass('shopping-item__checked');
 };
 
+var editItem = function(state,item,itemIndex) {
+    state.items[itemIndex].name = item;
+
+
+}
+
+    
 
 
 //render function
@@ -37,6 +44,13 @@ var renderList = function(state, element) {
           <button class="shopping-item-delete">
             <span class="button-label">delete</span>
           </button>
+          <button class="shopping-item-edit">
+            <span class="button-label">edit</span>
+          </button>
+          <input type="text" name="edit-shopping-list-entry" id="edit-shopping-list-entry" placeholder="edit entry">
+          
+
+            
         </div>
       </li>`
     });
@@ -59,7 +73,7 @@ $(function(){
 	});
 
 	$('.shopping-list').on('click', '.shopping-item-delete', function(){
-      console.log('delete');
+      
       let index = $(this).closest('li').index();
       deleteItem(state,index);
       renderList(state, shoppingList);
@@ -75,6 +89,12 @@ $(function(){
 
   });
 
+  $('.shopping-list').on('click', '.shopping-item-edit', function(){
+    let newValue = $('#edit-shopping-list-entry').val();
+    let newValueIndex = $(this).closest('li').index();
+    editItem(state,newValue, newValueIndex);
+    renderList(state, shoppingList);
+  });
 
 
 });
