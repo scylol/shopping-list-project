@@ -12,11 +12,10 @@ var addItem = function(state, item) {
 	
 
 var deleteItem = function(state, itemIndex) {
-    state.items=items.filter(function(index){
-        index !== itemIndex;
-    });
+  state.items.splice(itemIndex, 1);
+ };
 
-}
+
 
 var checkItem = function(state,item, itemIndex) {
     state.items[itemIndex].checked = !state.items[itemIndex].checked;
@@ -25,7 +24,7 @@ var checkItem = function(state,item, itemIndex) {
 
 
 
-//render state
+//render function
 
 var renderList = function(state, element) {
     var itemsHTML = state.items.map(function(item) {
@@ -48,20 +47,23 @@ var renderList = function(state, element) {
 // event listeners
 
 $(function(){ 
+  let shoppingList = $('.shopping-list');
+
 	$('#js-shopping-list-form').submit(function(){
         
 		event.preventDefault();
 		let userInput = $('#shopping-list-entry').val();
 		addItem(state, userInput);
-		let shoppingList = $('.shopping-list');
 		renderList(state, shoppingList);
 
 	});
 
-	$('.shopping-item-delete').on('click', function(){
-      let Index = $(this).closest('li').index();
+	$('.shopping-list').on('click', '.shopping-item-delete', function(){
+      console.log('delete');
+      let index = $(this).closest('li').index();
+      deleteItem(state,index);
+      renderList(state, shoppingList);
 
-      deleteItem(state,Index);
 	});
     
 	$('.shopping-list').on('click', '.shopping-item-toggle', function(){
@@ -69,6 +71,7 @@ $(function(){
     let lineCheck = $(this).closest('li').children('.shopping-item');
     let listIndex = $(this).closest('li').index();
     checkItem(state, lineCheck, listIndex);
+
 
   });
 
