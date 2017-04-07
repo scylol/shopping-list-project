@@ -7,13 +7,22 @@ var state = {
 // modification functions
 
 var addItem = function(state, item) {
-    state.items.push(item);
+    state.items.push({name:item, checked:false});
 };
 	
 
 var deleteItem = function(state, itemIndex) {
+    state.items=items.filter(function(index){
+        index !== itemIndex;
+    });
 
 }
+
+var checkItem = function(state,item) {
+    state.items.checked = !state.items.checked;
+    item.toggleClass('shopping-item__checked');
+};
+
 
 
 //render state
@@ -21,7 +30,7 @@ var deleteItem = function(state, itemIndex) {
 var renderList = function(state, element) {
     var itemsHTML = state.items.map(function(item) {
         return `<li>
-        <span class="shopping-item"> ${item} </span>
+        <span class="shopping-item"> ${item.name} </span>
         <div class="shopping-item-controls">
           <button class="shopping-item-toggle">
             <span class="button-label">check</span>
@@ -50,14 +59,14 @@ $(function(){
 	});
 
 	$('.shopping-item-delete').on('click', function(){
-      console.log('hello delete');
+      let Index = $(this).closest('li').index();
+      deleteItem(state,Index);
 	});
     
 	$('.shopping-list').on('click', '.shopping-item-toggle', function(){
-      
-		$(this).closest('li').children('.shopping-item').toggleClass('shopping-item__checked');
-
-	});
+    let lineCheck = $(this).closest('li').children('.shopping-item');
+    checkItem(state, lineCheck);
+  });
 
 
 
