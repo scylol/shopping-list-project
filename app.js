@@ -18,8 +18,8 @@ var deleteItem = function(state, itemIndex) {
 
 }
 
-var checkItem = function(state,item) {
-    state.items.checked = !state.items.checked;
+var checkItem = function(state,item, itemIndex) {
+    state.items[itemIndex].checked = !state.items[itemIndex].checked;
     item.toggleClass('shopping-item__checked');
 };
 
@@ -60,12 +60,16 @@ $(function(){
 
 	$('.shopping-item-delete').on('click', function(){
       let Index = $(this).closest('li').index();
+
       deleteItem(state,Index);
 	});
     
 	$('.shopping-list').on('click', '.shopping-item-toggle', function(){
+
     let lineCheck = $(this).closest('li').children('.shopping-item');
-    checkItem(state, lineCheck);
+    let listIndex = $(this).closest('li').index();
+    checkItem(state, lineCheck, listIndex);
+
   });
 
 
