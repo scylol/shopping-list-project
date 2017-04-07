@@ -9,32 +9,37 @@ var state = {
 var addItem = function(state, item) {
     state.items.push({name:item, checked:false});
 };
-	
-
 var deleteItem = function(state, itemIndex) {
   state.items.splice(itemIndex, 1);
  };
-
-
-
 var checkItem = function(state,item,itemIndex) {
     state.items[itemIndex].checked = !state.items[itemIndex].checked;
     item.toggleClass('shopping-item__checked');
 };
-
 var editItem = function(state,item,itemIndex) {
     state.items[itemIndex].name = item;
-
-
 }
-
-    
-
+var toggleHide = function(target){
+        target.toggleClass('hidden');
+  };
+  
+//  let filtered = state.items.filter(function(item){
+//      return item.checked === true;
+//  })
+  //When toggleHIde is clicked, check for all items that are checked
+  // then only rem
+  //return an array of indexes that are checked
+  //access the index of the items using closest('li')
+  // if checked = true hide it
+  //use .css() to add a property to the 'checked' dispaly:none
 
 //render function
 
 var renderList = function(state, element) {
-    var itemsHTML = state.items.map(function(item) {
+  
+   
+      var itemsHTML = state.items.map(function(item) {
+         if(item.checked === false){
         return `<li>
         <span class="shopping-item"> ${item.name} </span>
         <div class="shopping-item-controls">
@@ -50,13 +55,12 @@ var renderList = function(state, element) {
           <input type="text" name="edit-shopping-list-entry" id="edit-shopping-list-entry" placeholder="edit entry">
           
 
-            
+    
         </div>
       </li>`
-    });
-    element.html(itemsHTML);
-};
-
+      }})
+      element.html(itemsHTML);
+      }
 
 // event listeners
 
@@ -95,7 +99,11 @@ $(function(){
     editItem(state,newValue, newValueIndex);
     renderList(state, shoppingList);
   });
-
+  $('.show-checked-toggle').on('click', function(){
+   let target = $('.shopping-item__checked');
+   toggleHide(target);
+   renderList(state, shoppingList);
+  })
 
 });
 
